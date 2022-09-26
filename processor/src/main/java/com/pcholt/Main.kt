@@ -36,75 +36,41 @@ class MySymbolProcessor(
         ).use {
             PrintWriter(it).use { pw ->
                 uml(pw) {
-                    package_("A") {
-                        class_("Fleet")
-                        class_("Empire")
-                        class_("World")
-                        pw.println("' $classes")
+                    packages.forEach { packageEntry ->
+                        package_(packageEntry.key) {
+                            packageEntry.value.classes.forEach { className ->
+                                class_(className)
+                            }
+                        }
                     }
                 }
             }
-//            uml(PrintWriter(it)) {
-//                class_("Thingy")
-//                for (k in p.classes) {
-//                    class_("Thing${k}")
-//                }
-//            }
         }
     }
 }
 
-//    fun process1(resolver: Resolver): List<KSAnnotated> {
-//        val k = resolver.getSymbolsWithAnnotation("com.pcholt.MyAnnotation").toList()
-//        if (k.isEmpty())
-//            return emptyList()
-//        try {
-//            codeGenerator.createNewFile(
-//                dependencies = Dependencies(aggregating = false),
-//                packageName = "com.pcholt.gen",
-//                fileName = "Abc",
-//                extensionName = "puml"
-//            ).use {
-//                PrintWriter(it).use { writer ->
-//                    uml(writer) {
-//                        package_("pcholt.com") {
-//                            k.forEach { symbol: KSAnnotated ->
-//                                val loc = getLoc(symbol)
-//                                class_("TheClass")
-//                            }
-//                        }
-//                    }
-//                }
-//
-//            }
-//        } catch (e: Exception) {
-//            return emptyList()
-//        }
-//
-//        return emptyList()
-//    }
-//
-//}
+val packages = mutableMapOf<String,Package>()
 
-val classes = mutableListOf<String>()
+data class Package(
+    val classes : MutableSet<String> = mutableSetOf()
+)
 
 object ProcessMyAnnotation : KSVisitorVoid() {
     lateinit var logger: KSPLogger
 
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
-        logger.warn("visit 1")
-        classes.add(classDeclaration.location.toString())
-    }
+        logger.logging("ProcessMyAnnotation#visitClassDeclaration", classDeclaration)
+        val packageName = classDeclaration.containingFile!!.packageName.asString()
+        val className = "${classDeclaration.simpleName.asString()}Print"
 
-}
+        if (!packages.containsKey(packageName))
+            packages[packageName] = Package()
 
-private fun getLoc(symbol: KSAnnotated) {
-    symbol.location.let { location ->
-        when (location) {
-            is FileLocation -> location.filePath
-            NonExistLocation -> "[no location]"
+        packages[packageName]?.run {
+            classes.add(className)
         }
     }
+
 }
 
 private fun uml(w: PrintWriter, function: Puml.() -> Unit) {

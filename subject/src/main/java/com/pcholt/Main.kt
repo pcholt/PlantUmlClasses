@@ -1,20 +1,20 @@
 package com.pcholt
 
 @Target(AnnotationTarget.CLASS)
-annotation class MyAnnotation(val i: Int, val i1: Int, val i2: Int)
+annotation class MyAnnotation(val name:String)
 
 fun main() {
     println("Hello world!")
 }
 
-@MyAnnotation(4,5,6)
+@MyAnnotation("Heyo")
 data class Heyo(
     val name : String,
     val a : String,
     val b : String
 )
 
-@MyAnnotation(4,5,6)
+@MyAnnotation("OtherOne")
 data class Heyo3(
     val name : String,
     val a : String,

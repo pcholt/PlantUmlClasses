@@ -16,13 +16,17 @@ class MySymbolProcessor(
 ) : SymbolProcessor {
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        logger.warn("OW")
         ProcessMyAnnotation.logger = logger
+        ProcessLinkField.logger = logger
         resolver
             .getSymbolsWithAnnotation("com.pcholt.MyAnnotation")
             .forEach {
-                logger.warn(it.toString())
                 it.accept(ProcessMyAnnotation, Unit)
+            }
+        resolver
+            .getSymbolsWithAnnotation("com.pcholt.LinkField")
+            .forEach {
+                it.accept(ProcessLinkField, Unit)
             }
         return emptyList()
     }
@@ -37,41 +41,30 @@ class MySymbolProcessor(
             PrintWriter(it).use { pw ->
                 uml(pw) {
                     packages.forEach { packageEntry ->
-                        package_(packageEntry.key) {
-                            packageEntry.value.classes.forEach { className ->
-                                class_(className)
+                            packageEntry.value.classes.forEach { _class ->
+                                class_("${packageEntry.key}.${_class.key}") {
+                                    _class.value.properties.forEach { p ->
+                                        property_(p)
+                                    }
+                                }
                             }
-                        }
                     }
                 }
             }
         }
     }
+
 }
 
 val packages = mutableMapOf<String,Package>()
 
 data class Package(
-    val classes : MutableSet<String> = mutableSetOf()
+    val classes : MutableMap<String, Class> = mutableMapOf()
 )
 
-object ProcessMyAnnotation : KSVisitorVoid() {
-    lateinit var logger: KSPLogger
-
-    override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
-        logger.logging("ProcessMyAnnotation#visitClassDeclaration", classDeclaration)
-        val packageName = classDeclaration.containingFile!!.packageName.asString()
-        val className = "${classDeclaration.simpleName.asString()}Print"
-
-        if (!packages.containsKey(packageName))
-            packages[packageName] = Package()
-
-        packages[packageName]?.run {
-            classes.add(className)
-        }
-    }
-
-}
+data class Class(
+    val properties : MutableSet<String> = mutableSetOf()
+)
 
 private fun uml(w: PrintWriter, function: Puml.() -> Unit) {
     with(Puml(w)) {
@@ -81,18 +74,4 @@ private fun uml(w: PrintWriter, function: Puml.() -> Unit) {
     }
 }
 
-
-data class Puml(
-    val w: PrintWriter
-) {
-    fun package_(qualifier: String?, function: Puml.() -> Unit) {
-        w.println("package $qualifier {")
-        function()
-        w.println("}")
-    }
-
-    fun class_(shortName: String?) {
-        w.println("class $shortName")
-    }
-}
 

@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="28845d93-cbce-469d-b086-2c95ffd4060c" name="Changes" comment="exports simple class list">
-      <change afterPath="$PROJECT_DIR$/processor/src/main/java/com/pcholt/ProcessLinkField.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/processor/src/main/java/com/pcholt/ProcessMyAnnotation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/processor/src/main/java/com/pcholt/Puml.kt" afterDir="false" />
+    <list default="true" id="28845d93-cbce-469d-b086-2c95ffd4060c" name="Changes" comment="README.md initial version">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processor/src/main/java/com/pcholt/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/processor/src/main/java/com/pcholt/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processor/src/main/java/com/pcholt/ProcessLinkField.kt" beforeDir="false" afterPath="$PROJECT_DIR$/processor/src/main/java/com/pcholt/ProcessLinkField.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/subject/src/main/java/com/pcholt/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/subject/src/main/java/com/pcholt/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +24,9 @@
     <system id="GRADLE">
       <state>
         <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="ksptoy">
           <activation />
         </task>
         <projects_view>
@@ -84,9 +86,32 @@
       <command value="gradle clean" />
       <command value="gradle clean build" />
       <command value="gradle build" />
+      <command value="gradle :subject:build" />
+      <command value="gradle :subject:build --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy=in-process" />
     </option>
   </component>
   <component name="RunManager" selected="Gradle.ksptoy [build]">
+    <configuration name="ksptoy [:subject:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="ksptoy" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--debug" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="ksptoy [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -158,9 +183,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Gradle.ksptoy [:subject:build]" />
+      <item itemvalue="Gradle.ksptoy [build]" />
+      <item itemvalue="Gradle.ksptoy [clean build]" />
+      <item itemvalue="Gradle.ksptoy [clean]" />
+      <item itemvalue="Kotlin.MainKt" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.ksptoy [build]" />
+        <item itemvalue="Gradle.ksptoy [:subject:build]" />
         <item itemvalue="Gradle.ksptoy [clean build]" />
         <item itemvalue="Gradle.ksptoy [clean]" />
         <item itemvalue="Kotlin.MainKt" />
@@ -176,7 +209,7 @@
       <option name="presentableId" value="Default" />
       <updated>1664019253580</updated>
       <workItem from="1664019254786" duration="5473000" />
-      <workItem from="1664030211494" duration="29869000" />
+      <workItem from="1664030211494" duration="36866000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1664105147021</created>
@@ -199,7 +232,21 @@
       <option name="project" value="LOCAL" />
       <updated>1664159707616</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Process link field">
+      <created>1664162607901</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1664162607901</updated>
+    </task>
+    <task id="LOCAL-00005" summary="README.md initial version">
+      <created>1664188176943</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1664188176943</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +267,9 @@
     <MESSAGE value="initial" />
     <MESSAGE value="visits of classes" />
     <MESSAGE value="exports simple class list" />
-    <option name="LAST_COMMIT_MESSAGE" value="exports simple class list" />
+    <MESSAGE value="Process link field" />
+    <MESSAGE value="README.md initial version" />
+    <option name="LAST_COMMIT_MESSAGE" value="README.md initial version" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

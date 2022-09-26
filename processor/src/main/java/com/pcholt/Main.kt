@@ -34,20 +34,23 @@ class MySymbolProcessor(
     override fun finish() {
         codeGenerator.createNewFile(
             dependencies = Dependencies.ALL_FILES,
-            packageName = "com.pcholt.gen",
+            packageName = "",
             fileName = "Things",
             extensionName = "puml"
         ).use {
             PrintWriter(it).use { pw ->
                 uml(pw) {
-                    packages.forEach { packageEntry ->
-                            packageEntry.value.classes.forEach { _class ->
-                                class_("${packageEntry.key}.${_class.key}") {
-                                    _class.value.properties.forEach { p ->
-                                        property_(p)
-                                    }
+                    for (packageEntry in packages) {
+                        packageEntry.value.classes.forEach { _class ->
+                            class_("${packageEntry.key}.${_class.key}") {
+                                _class.value.properties.forEach { p ->
+                                    property_(p)
                                 }
                             }
+                        }
+                    }
+                    for (link in links) {
+                        link_(link)
                     }
                 }
             }
@@ -56,15 +59,23 @@ class MySymbolProcessor(
 
 }
 
-val packages = mutableMapOf<String,Package>()
+val packages = mutableMapOf<String, Package>()
 
 data class Package(
-    val classes : MutableMap<String, Class> = mutableMapOf()
+    val classes: MutableMap<String, Class> = mutableMapOf()
 )
 
 data class Class(
-    val properties : MutableSet<String> = mutableSetOf()
+    val properties: MutableSet<String> = mutableSetOf()
 )
+
+data class Link(
+    val fromQualifiedName: String,
+    val toQualifiedName: String,
+    val fieldName: String
+)
+
+val links = mutableSetOf<Link>()
 
 private fun uml(w: PrintWriter, function: Puml.() -> Unit) {
     with(Puml(w)) {

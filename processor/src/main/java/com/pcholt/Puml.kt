@@ -20,4 +20,8 @@ data class Puml(
         function()
         w.println("}")
     }
+
+    fun link_(link: Link) {
+        w.println("${link.fromQualifiedName} o- ${link.toQualifiedName} : ${link.fieldName}")
+    }
 }

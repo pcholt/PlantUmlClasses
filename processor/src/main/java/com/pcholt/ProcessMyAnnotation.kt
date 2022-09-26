@@ -10,7 +10,7 @@ object ProcessMyAnnotation : KSVisitorVoid() {
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
         logger.logging("ProcessMyAnnotation#visitClassDeclaration", classDeclaration)
         val packageName = classDeclaration.containingFile!!.packageName.asString()
-        val className = "${classDeclaration.simpleName.asString()}Print"
+        val className = classDeclaration.simpleName.asString()
 
         if (!packages.containsKey(packageName))
             packages[packageName] = Package()

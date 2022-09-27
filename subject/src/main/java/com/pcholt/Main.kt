@@ -5,7 +5,7 @@ import com.pcholt.external.ExternalData
 @Target(AnnotationTarget.CLASS)
 annotation class MyAnnotation
 @Target(AnnotationTarget.FIELD)
-annotation class LinkField(val level:Int = 1)
+annotation class LinkField(val level:Int = 1, val ownership:Boolean = true)
 
 fun main() {
     println("Hello world!")
@@ -19,7 +19,7 @@ data class AnotherOne(
     @LinkField
     val factory: ProcessBuilderFactory,
     val extern : ExternalData,
-    @LinkField(2)
+    @LinkField(2, ownership = false)
     val linky : List<ExternalData>,
 )
 

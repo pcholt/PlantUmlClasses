@@ -13,13 +13,16 @@ object ProcessLinkField : KSVisitorVoid() {
             it.annotationType.resolve().declaration.qualifiedName?.asString() ?: "X"
         })
 
-        val level = property.annotations
+        val arguments = property.annotations
             .firstOrNull {
                 it.shortName.asString() == "LinkField" &&
                         it.annotationType.resolve().declaration.qualifiedName?.asString() == "com.pcholt.LinkField"
             }
             ?.arguments
-            ?.first()?.value as? Int
+
+
+        val level = arguments?.get(0)?.value as? Int
+        val ownership = arguments?.get(1)?.value as? Boolean
 
         val ksClassDeclaration = property.type.resolve().declaration as KSClassDeclaration
         val isCollectionType = ksClassDeclaration.getAllSuperTypes().any {
@@ -37,7 +40,7 @@ object ProcessLinkField : KSVisitorVoid() {
                 fromQualifiedName = property.parentDeclaration?.qualifiedName?.asString() ?: "",
                 fieldName = property.simpleName.asString(),
                 multiplicity = if (isCollectionType) Multiplicity.Multiple else Multiplicity.Single,
-                relationship = Relationship.Ownership,
+                relationship = if (ownership==true) Relationship.Ownership else Relationship.Reference,
                 level = level ?: 1
             )
         )

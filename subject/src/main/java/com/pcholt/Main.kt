@@ -1,5 +1,7 @@
 package com.pcholt
 
+import com.pcholt.external.ExternalData
+
 @Target(AnnotationTarget.CLASS)
 annotation class MyAnnotation
 @Target(AnnotationTarget.FIELD)
@@ -11,10 +13,14 @@ fun main() {
 
 @MyAnnotation
 data class AnotherOne(
-    val name : String,
-    val a : String,
+    val name : List<String>,
+    val a : ProcessLinkField,
     val b : String,
-    @LinkField val anotherOne: ProcessBuilderFactory
+    @LinkField
+    val factory: ProcessBuilderFactory,
+    val extern : ExternalData,
+    @LinkField(2)
+    val linky : List<ExternalData>,
 )
 
 

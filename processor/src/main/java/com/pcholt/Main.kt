@@ -44,7 +44,7 @@ class MySymbolProcessor(
                         packageEntry.value.classes.forEach { _class ->
                             class_("${packageEntry.key}.${_class.key}") {
                                 _class.value.properties.forEach { p ->
-                                    property_(p)
+                                    property_(p.name, p.type)
                                 }
                             }
                         }
@@ -66,13 +66,21 @@ data class Package(
 )
 
 data class Class(
-    val properties: MutableSet<String> = mutableSetOf()
+    val properties: MutableSet<Property> = mutableSetOf()
+)
+
+data class Property(
+    val name: String,
+    val type: String
 )
 
 data class Link(
     val fromQualifiedName: String,
     val toQualifiedName: String,
-    val fieldName: String
+    val fieldName: String,
+    val multiplicity: Multiplicity,
+    val relationship: Relationship,
+    val level: Int
 )
 
 val links = mutableSetOf<Link>()

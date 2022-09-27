@@ -9,12 +9,6 @@ data class Puml(
         w.println(" + $propertyName : $propertyType")
     }
 
-    fun package_(qualifier: String?, function: Puml.() -> Unit) {
-        w.println("package $qualifier {")
-        function()
-        w.println("}")
-    }
-
     fun class_(shortName: String?, function: Puml.() -> Unit) {
         w.println("class $shortName {")
         function()
@@ -22,6 +16,9 @@ data class Puml(
     }
 
     fun link_(link: Link) {
-        w.println("${link.fromQualifiedName} o- ${link.toQualifiedName} : ${link.fieldName}")
+        if (link.level < 1)
+            w.println("${link.toQualifiedName} ${link.multiplicity} ${"-".repeat(1-link.level)}${link.relationship} ${link.fromQualifiedName}: ${link.fieldName}")
+        else
+            w.println("${link.fromQualifiedName} ${link.relationship}${"-".repeat(link.level)} ${link.multiplicity} ${link.toQualifiedName}: ${link.fieldName}")
     }
 }
